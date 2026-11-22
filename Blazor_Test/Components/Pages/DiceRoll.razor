@@ -50,7 +50,7 @@
     {
         int d100 = Random.Shared.Next(1, 101); // Generates a random number between 1 and 100 for the d100 dice
         int d10 = Random.Shared.Next(1, 11); // Generates a random number between 1 and 10 for the d10 dice
-        int d100Total = d100 + d10; // Calculates the total for the d100 roll by adding the d100 and d10 rolls
+        int d100Total = d100 + d10; // Calculates the total for the d100 roll by adding the d100 and d10 rolls. This was done to simulate a d100 roll using two separate rolls (d100 and d10) to provide a more varied result.
 
         int sides = diceType switch
         {
