@@ -14,17 +14,18 @@
                         <th>Generate Full Name</th>
                     </tr>
                     <tr>                        
-                        <th><button class="btn btn-success w-100" @onclick="LoadPlayerName">Generate Player Name</button></th> 
+                        <th><button class="btn btn-primary btn-block fw-bold w-100" @onclick="LoadPlayerName">Generate Player Name</button></th> 
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>@playerName</td>
+                        <td><h4>@playerName</h4></td>
                     </tr>
                 </tbody>
             </table>
         </p>
     </div>
+
     <div class="col-md-4">
         <table class="table table-sm table-bordered text-center">
             <thead>
@@ -32,22 +33,46 @@
                     <th colspan="2">Generate Names Separately</th>
                 </tr>
                 <tr>                    
-                    <th><button class="btn btn-success w-100" @onclick="LoadPlayerFirstName">Generate First Name</button></th>
-                    <th><button class="btn btn-success w-100" @onclick="LoadPlayerLastName">Generate Last Name</button></th>
+                    <th><button class="btn btn-primary btn-block fw-bold w-100" @onclick="LoadPlayerFirstName">Generate First Name</button></th>
+                    <th><button class="btn btn-primary btn-block fw-bold w-100" @onclick="LoadPlayerLastName">Generate Last Name</button></th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>@firstName</td>
-                    <td>@lastName</td>
+                    <td><h4>@firstName</h4></td>
+                    <td><h4>@lastName</h4></td>
                 </tr>
             </tbody>
         </table>
     </div>
+    
     <div class="col-md-4"></div>
 </div>
 
 <div class="row">
+    <div class="col-md-4">
+        <table class="table table-sm table-bordered text-center">
+            <thead>
+                <tr>
+                    <th colspan="2">Names</th>
+                </tr>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var name in firstLastNames)
+                {
+                    <tr>
+                        <td>@name.FirstName</td>
+                        <td>@name.LastName</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
     <div class="col-md-4">
         <table class="table table-sm table-bordered text-center">
             <thead>
@@ -65,7 +90,7 @@
             </tbody>
         </table>
     </div>
-    <div class="col-md-4"></div>
+    
 </div>
 
 @code {
@@ -75,7 +100,8 @@
     private string[] firstNames = { "John", "Jane", "Alice", "Bob", "Charlie", "Fenix", "Flikt", "Nithrali", "Reuben", "Calder", "Farlander", "Mavis", "Soldan" };
     private string[] lastNames = { "Doe", "Smith", "Johnson", "Williams", "Brown", "", "Beck", "Daevenna", "Corillian", "Seirinise", "Azorin" };
     private string[] combinedNames = Array.Empty<string>(); // Array to hold combined names
-    
+    private PlayerNameModel[] firstLastNames = Array.Empty<PlayerNameModel>(); // Array to hold combined first and last names
+
     // Override the OnInitialized method to populate the combinedNames array when the component is initialized
     protected override void OnInitialized()
     {
@@ -122,5 +148,25 @@
                 return $"{first} {last}".Trim(); // Combines the first and last names, trimming any leading or trailing whitespace
             })
             .ToArray(); // Converts the combined names into an array
+    }
+
+    // Method to combine first and last names into a single array
+    private void ListFirstLastNames()
+    {
+        PlayerNameModel[] firstLastNames = new PlayerNameModel[firstNames.Length];
+        for (int i = 0; i < firstNames.Length; i++)
+        {
+            firstLastNames[i] = new PlayerNameModel
+            {
+                FirstName = firstNames[i],
+                LastName = i < lastNames.Length ? lastNames[i] : string.Empty // Assigns the last name if the index is within bounds, otherwise assigns an empty string
+            };
+        }
+    }
+
+    public class PlayerNameModel
+    {
+        public string FirstName { get; set; } = string.Empty; // Property to hold the first name
+        public string LastName { get; set; } = string.Empty; // Property to hold the last name
     }
 }
