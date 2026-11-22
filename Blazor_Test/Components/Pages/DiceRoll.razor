@@ -1,20 +1,75 @@
 ﻿@page "/diceroll"
+@using System.Runtime.CompilerServices
 @rendermode InteractiveServer
 
 <PageTitle>DiceRoll</PageTitle>
 
 <h1>Dice Roll</h1>
 
-<p role="status">Current Roll: @currentRoll</p>
+<div class="row">
+    <div class="col-md-4">
+        <table class="table table-sm table-borderless">
+            <thead>
+                <tr>
+                    <th>Dice Type</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <select class="form-control" @onchange="OnDiceChange">
+                            @foreach (var die in dice)
+                            {
+                                <option value="@die">@die</option>
+                            }
+                        </select>
+                    </td>
+                    <td><button class="btn btn-success w-100" @onclick="() => RollDice(dice[selectedDiceIndex])">Roll!</button></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><h3><p role="status">Current Roll: @currentRoll</p></h3></td>
+                </tr>
+            </tbody>
+        </table>
+        
+    </div>
 
-<button class="btn btn-primary" @onclick="DiceResult">Click me</button>
+    <div class="col-md-8"></div>
+</div>
+
+
 
 @code {
+    private string[] dice = new string[] {"d4", "d6", "d8", "d10", "d12", "d20", "d100"}; // Array of available dice types
     int currentRoll;
+    private int selectedDiceIndex = 0; // Index to track the selected dice type
 
-    // Method to generate a random dice roll between 1 and 20
-    private void DiceResult()
+    // Method to roll the selected dice type
+    private void RollDice(string diceType)
     {
-        currentRoll = Random.Shared.Next(1, 21); // Generates a random number between 1 and 20
+        int d100 = Random.Shared.Next(1, 101); // Generates a random number between 1 and 100 for the d100 dice
+        int d10 = Random.Shared.Next(1, 11); // Generates a random number between 1 and 10 for the d10 dice
+        int d100Total = d100 + d10; // Calculates the total for the d100 roll by adding the d100 and d10 rolls
+
+        int sides = diceType switch
+        {
+            "d4" => 4,
+            "d6" => 6,
+            "d8" => 8,
+            "d10" => 10,
+            "d12" => 12,
+            "d20" => 20,
+            "d100" => d100Total, // For d100, use the calculated total from d100 and d10 rolls
+            _ => throw new ArgumentException("Invalid dice type") // Throws an exception if an invalid dice type is provided
+        }; // Determine the number of sides based on the selected dice type
+
+        currentRoll = Random.Shared.Next(1, sides + 1); // Generates a random number between 1 and the number of sides on the selected dice
+    }
+
+    // Method to handle the change event when a different dice type is selected
+    private void OnDiceChange(ChangeEventArgs e)
+    {
+        selectedDiceIndex = Array.IndexOf(dice, e.Value.ToString()); // Update the selected dice index based on the selected value
     }
 }
