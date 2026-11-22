@@ -1,9 +1,9 @@
 @page "/playername"
 @rendermode InteractiveServer
 
-<PageTitle>Player Name</PageTitle>
+<PageTitle>Player Names</PageTitle>
 
-<h1>Player Name</h1>
+<h1>Player Names</h1>
 
 <div class="row">
     <div class="col-md-4">
@@ -47,12 +47,40 @@
     <div class="col-md-4"></div>
 </div>
 
+<div class="row">
+    <div class="col-md-4">
+        <table class="table table-sm table-bordered text-center">
+            <thead>
+                <tr>
+                    <th>Combined Names</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var name in combinedNames)
+                {
+                    <tr>
+                        <td>@name</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+
 @code {
     private string playerName = string.Empty;
     private string firstName = string.Empty;
     private string lastName = string.Empty;
     private string[] firstNames = { "John", "Jane", "Alice", "Bob", "Charlie", "Fenix", "Flikt", "Nithrali", "Reuben", "Calder", "Farlander", "Mavis", "Soldan" };
     private string[] lastNames = { "Doe", "Smith", "Johnson", "Williams", "Brown", "", "Beck", "Daevenna", "Corillian", "Seirinise", "Azorin" };
+    private string[] combinedNames = Array.Empty<string>(); // Array to hold combined names
+    
+    // Override the OnInitialized method to populate the combinedNames array when the component is initialized
+    protected override void OnInitialized()
+    {
+        ListPlayerNames();
+    }
 
     // Method to generate a random player name
     private void LoadPlayerName()
@@ -80,5 +108,19 @@
         var lastNameIndex = random.Next(lastNames.Length); // Generates a random index for the lastNames array
 
         lastName = $"{lastNames[lastNameIndex]}"; // Assigns the randomly selected last name to the lastName variable
+    }
+
+    // Method to combine first and last names into a single array
+    private void ListPlayerNames()
+    {
+        var nameCount = Math.Max(firstNames.Length, lastNames.Length); // Determines the maximum length between firstNames and lastNames arrays
+        combinedNames = Enumerable.Range(0, nameCount)
+            .Select(index =>
+            {
+                var first = index < firstNames.Length ? firstNames[index] : string.Empty; // Selects the first name if the index is within bounds, otherwise assigns an empty string
+                var last = index < lastNames.Length ? lastNames[index] : string.Empty; // Selects the last name if the index is within bounds, otherwise assigns an empty string
+                return $"{first} {last}".Trim(); // Combines the first and last names, trimming any leading or trailing whitespace
+            })
+            .ToArray(); // Converts the combined names into an array
     }
 }
