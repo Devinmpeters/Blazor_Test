@@ -1,0 +1,86 @@
+@page "/playername"
+@rendermode InteractiveServer
+
+<PageTitle>Player Name</PageTitle>
+
+<h1>Player Name</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <p role="status">
+            <table class="table table-sm table-bordered text-center">
+                <thead>
+                    <tr>
+                        <th>Generate Full Name</th>
+                    </tr>
+                    <tr>                        
+                        <th><button class="btn btn-success w-100" @onclick="LoadPlayerName">Generate Player Name</button></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@playerName</td>
+                    </tr>
+                </tbody>
+            </table>
+        </p>
+    </div>
+    <div class="col-md-4">
+        <table class="table table-sm table-bordered text-center">
+            <thead>
+                <tr>
+                    <th colspan="2">Generate Names Separately</th>
+                </tr>
+                <tr>                    
+                    <th><button class="btn btn-success w-100" @onclick="LoadPlayerFirstName">Generate First Name</button></th>
+                    <th><button class="btn btn-success w-100" @onclick="LoadPlayerLastName">Generate Last Name</button></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@firstName</td>
+                    <td>@lastName</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+
+
+
+@code {
+    private string playerName = string.Empty;
+    private string firstName = string.Empty;
+    private string lastName = string.Empty;
+    private string[] firstNames = { "John", "Jane", "Alice", "Bob", "Charlie", "Fenix", "Flikt", "Nithrali", "Reuben", "Calder", "Farlander", "Mavis", "Soldan" };
+    private string[] lastNames = { "Doe", "Smith", "Johnson", "Williams", "Brown", "", "Beck", "Daevenna", "Corillian", "Seirinise", "Azorin" };
+
+    // Method to generate a random player name
+    private void LoadPlayerName()
+    {   
+        var random = new Random();
+        var firstNameIndex = random.Next(firstNames.Length);
+        var lastNameIndex = random.Next(lastNames.Length);
+
+        playerName = $"{firstNames[firstNameIndex]} {lastNames[lastNameIndex]}";
+    }
+
+    // Method to load a random first name
+    private void LoadPlayerFirstName()
+    {
+        var random = new Random();
+        var firstNameIndex = random.Next(firstNames.Length);
+
+        firstName = $"{firstNames[firstNameIndex]}";
+    }
+
+    // Method to load a random last name
+    private void LoadPlayerLastName()
+    {
+        var random = new Random();
+        var lastNameIndex = random.Next(lastNames.Length);
+
+        lastName = $"{lastNames[lastNameIndex]}";
+    }
+}
