@@ -83,3 +83,4 @@ c:\Users\devin\OneDrive\Documents\Code_Examples\Blazor_Test\Blazor_Test\obj\Debu
 c:\Users\devin\OneDrive\Documents\Code_Examples\Blazor_Test\Blazor_Test\obj\Debug\net10.0\Blazor_Test.pdb
 c:\Users\devin\OneDrive\Documents\Code_Examples\Blazor_Test\Blazor_Test\obj\Debug\net10.0\Blazor_Test.genruntimeconfig.cache
 c:\Users\devin\OneDrive\Documents\Code_Examples\Blazor_Test\Blazor_Test\obj\Debug\net10.0\ref\Blazor_Test.dll
+c:\Users\devin\OneDrive\Documents\Code_Examples\Blazor_Test\Blazor_Test\obj\Debug\net10.0\Blazor_Test.sourcelink.json
