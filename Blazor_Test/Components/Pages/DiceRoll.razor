@@ -4,45 +4,44 @@
 
 <PageTitle>DiceRoll</PageTitle>
 
-<h1>Dice Roll</h1>
+<h3>Dice Roll</h3>
 
-<div class="row">
-    <div class="col-md-4">
-        <table class="table table-sm table-borderless">
-            <thead>
-                <tr>
-                    <th>Dice Type</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <select class="form-control" @onchange="OnDiceChange">
-                            @foreach (var die in dice)
-                            {
-                                <option value="@die">@die</option>
-                            }
-                        </select>
-                    </td>
-                    <td><button class="btn btn-success w-100" @onclick="() => RollDice(dice[selectedDiceIndex])">Roll!</button></td>
-                </tr>
-                <tr>
-                    <td colspan="2"><h3><p role="status">Current Roll: @currentRoll</p></h3></td>
-                </tr>
-            </tbody>
-        </table>
-        
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="input-group mb-3">
+                    <select class="form-control" placeholder="Select Dice" aria-label="Select Dice" aria-describedby="button-addon" @onchange="OnDiceChange">
+                        @foreach (var die in dice)
+                        {
+                            <option value="@die">@die</option>
+                        }
+                    </select>    
+                    <button class="btn btn-primary input-group-btn" type="button" id="button-addon" @onclick="() => RollDice(dice[selectedDiceIndex])">Roll!</button>
+                </div> 
+            </div>
+
+            <div class="col-md-10"></div>
+        </div>
     </div>
-
-    <div class="col-md-8"></div>
+    <div class="card-footer">
+        <div class="row">
+            <div class="col-md-12">
+                <h5><p role="status">@rollMsg</p></h5>
+            </div>
+        </div>
+    </div>
 </div>
 
 
 
+
+
+
 @code {
-    private string[] dice = new string[] {"d4", "d6", "d8", "d10", "d12", "d20", "d100"}; // Array of available dice types
+    private string[] dice = new string[] {"D4", "D6", "D8", "D10", "D12", "D20", "D100"}; // Array of available dice types
     int currentRoll;
+    string rollMsg;
     private int selectedDiceIndex = 0; // Index to track the selected dice type
 
     // Method to roll the selected dice type
@@ -54,17 +53,18 @@
 
         int sides = diceType switch
         {
-            "d4" => 4,
-            "d6" => 6,
-            "d8" => 8,
-            "d10" => 10,
-            "d12" => 12,
-            "d20" => 20,
-            "d100" => d100Total, // For d100, use the calculated total from d100 and d10 rolls
+            "D4" => 4,
+            "D6" => 6,
+            "D8" => 8,
+            "D10" => 10,
+            "D12" => 12,
+            "D20" => 20,
+            "D100" => d100Total, // For d100, use the calculated total from d100 and d10 rolls
             _ => throw new ArgumentException("Invalid dice type") // Throws an exception if an invalid dice type is provided
         }; // Determine the number of sides based on the selected dice type
 
         currentRoll = Random.Shared.Next(1, sides + 1); // Generates a random number between 1 and the number of sides on the selected dice
+        rollMsg = $"You rolled a {currentRoll}!";
     }
 
     // Method to handle the change event when a different dice type is selected
