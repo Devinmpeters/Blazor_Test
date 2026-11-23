@@ -3,54 +3,94 @@
 
 <PageTitle>Player Names</PageTitle>
 
-<h1>Player Names</h1>
+<h2>Player Names</h2>
 
 <div class="row">
-    <div class="col-md-4">
-        <p role="status">
-            <table class="table table-sm table-bordered text-center">
-                <thead>
-                    <tr>
-                        <th>Generate Full Name</th>
-                    </tr>
-                    <tr>                        
-                        <th><button class="btn btn-primary btn-block fw-bold w-100" @onclick="LoadPlayerName">Generate Player Name</button></th> 
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><h4>@playerName</h4></td>
-                    </tr>
-                </tbody>
-            </table>
-        </p>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4>Generate Names</h4>
+            </div>
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header fw-bold">
+                                Generate Full Name
+                            </div>
+
+                            <div class="card-body">
+                                <div class="input-group mb-3">
+                                    <button class="btn btn-primary input-group-btn" type="button" id="genFull-button" @onclick="LoadPlayerName">Generate</button>
+                                    <input type="text" class="form-control" aria-describedby="genFull-button" value="@playerName" readonly />
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <br />
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header fw-bold">
+                                Generate Names Separately
+                            </div>
+
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="input-group mb-3">
+                                            <button class="btn btn-primary input-group-btn" type="button" id="genFirst-button" @onclick="LoadPlayerFirstName">Generate First Name</button>
+                                            <input type="text" class="form-control" aria-describedby="genFirst-button" value="@firstName" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="input-group mb-3">
+                                            <button class="btn btn-primary input-group-btn" type="button" id="genLast-button" @onclick="LoadPlayerLastName">Generate Last Name</button>
+                                            <input type="text" class="form-control" aria-describedby="genLast-button" value="@lastName" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>       
     </div>
 
-    <div class="col-md-4">
-        <table class="table table-sm table-bordered text-center">
-            <thead>
-                <tr>
-                    <th colspan="2">Generate Names Separately</th>
-                </tr>
-                <tr>                    
-                    <th><button class="btn btn-primary btn-block fw-bold w-100" @onclick="LoadPlayerFirstName">Generate First Name</button></th>
-                    <th><button class="btn btn-primary btn-block fw-bold w-100" @onclick="LoadPlayerLastName">Generate Last Name</button></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><h4>@firstName</h4></td>
-                    <td><h4>@lastName</h4></td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4>Combined Names</h4>
+            </div>
+
+            <div class="card-body">
+                <table class="table table-sm table-bordered text-center">
+                    <tbody>
+                        @foreach (var name in combinedNames)
+                        {
+                            <tr>
+                                <td>@name</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
     </div>
-    
-    <div class="col-md-4"></div>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
+@* <div class="row">
+    <div class="col-md-6">
         <table class="table table-sm table-bordered text-center">
             <thead>
                 <tr>
@@ -72,26 +112,8 @@
             </tbody>
         </table>
     </div>
-
-    <div class="col-md-4">
-        <table class="table table-sm table-bordered text-center">
-            <thead>
-                <tr>
-                    <th>Combined Names</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var name in combinedNames)
-                {
-                    <tr>
-                        <td>@name</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-    
-</div>
+    <div class="col-md-6"></div>
+</div> *@
 
 @code {
     private string playerName = string.Empty;
