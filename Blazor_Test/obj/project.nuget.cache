@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "k4KnWlcgUwQ=",
+  "dgSpecHash": "MzkI+0LajnE=",
   "success": true,
-  "projectFilePath": "c:\\Users\\devin\\OneDrive\\Documents\\Code_Examples\\Blazor_Test\\Blazor_Test\\Blazor_Test.csproj",
+  "projectFilePath": "C:\\Users\\devin\\OneDrive\\Documents\\Code_Examples\\Blazor_Test\\Blazor_Test\\Blazor_Test.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\devin\\.nuget\\packages\\microsoft.aspnetcore.app.internal.assets\\10.0.14\\microsoft.aspnetcore.app.internal.assets.10.0.14.nupkg.sha512"
   ],
