@@ -125,7 +125,8 @@
     private string playerName = string.Empty;
     private string firstName = string.Empty;
     private string lastName = string.Empty;
-    private List<PlayerNames>? playerNames;
+    private static List<PlayerNames>? playerNames;
+        // Create a list of non-empty first names from the database.
     private string[] firstNames = { "John", "Jane", "Alice", "Bob", "Charlie", "Fenix", "Flikt", "Nithrali", "Reuben", "Calder", "Farlander", "Mavis", "Soldan" };
     private string[] lastNames = { "Doe", "Smith", "Johnson", "Williams", "Brown", "", "Beck", "Daevenna", "Corillian", "Seirinise", "Azorin" };
     private string[] combinedNames = Array.Empty<string>(); // Array to hold combined names
@@ -147,11 +148,23 @@
     // Method to generate a random player name
     private void LoadPlayerName()
     {   
-        var random = new Random(); // Creates a new instance of the Random class
-        var firstNameIndex = random.Next(firstNames.Length); // Generates a random index for the firstNames array
-        var lastNameIndex = random.Next(lastNames.Length); // Generates a random index for the lastNames array
+        var firstNameList = playerNames?
+            .Select(player => player.FirstName)
+            .Where(name => !string.IsNullOrWhiteSpace(name))
+            .ToList() ?? new List<string>();
+            // Create a list of non-empty first names from the database.
 
-        playerName = $"{firstNames[firstNameIndex]} {lastNames[lastNameIndex]}"; // Assigns the randomly selected first and last names to the playerName variable
+        var lastNameList = playerNames?
+            .Select(player => player.LastName)
+            .Where(name => !string.IsNullOrWhiteSpace(name))
+            .ToList() ?? new List<string>(); 
+        // Create a list of non-empty last names from the database.
+
+        var random = new Random(); // Creates a new instance of the Random class
+        var firstNameIndex = random.Next(firstNameList.Count); // Generates a random index for the firstNames array
+        var lastNameIndex = random.Next(lastNameList.Count); // Generates a random index for the lastNames array
+
+        playerName = $"{firstNameList[firstNameIndex]} {lastNameList[lastNameIndex]}"; // Assigns the randomly selected first and last names to the playerName variable
     }
 
     // Method to load a random first name
@@ -161,6 +174,7 @@
             .Select(player => player.FirstName)
             .Where(name => !string.IsNullOrWhiteSpace(name))
             .ToList() ?? new List<string>();
+            // Create a list of non-empty first names from the database.
 
         if (firstNameList.Count == 0)
         {
@@ -179,7 +193,8 @@
         var lastNameList = playerNames?
             .Select(player => player.LastName)
             .Where(name => !string.IsNullOrWhiteSpace(name))
-            .ToList() ?? new List<string>();
+            .ToList() ?? new List<string>(); 
+        // Create a list of non-empty last names from the database.
 
         if (lastNameList.Count == 0)
         {
@@ -194,19 +209,32 @@
     // Method to combine first and last names into a single array
     private void ListPlayerNames()
     {
-        var nameCount = Math.Max(firstNames.Length, lastNames.Length); // Determines the maximum length between firstNames and lastNames arrays
+        var firstNameList = playerNames?
+            .Select(player => player.FirstName)
+            .Where(name => !string.IsNullOrWhiteSpace(name))
+            .ToList() ?? new List<string>();
+            // Create a list of non-empty first names from the database.
+
+        var lastNameList = playerNames?
+            .Select(player => player.LastName)
+            .Where(name => !string.IsNullOrWhiteSpace(name))
+            .ToList() ?? new List<string>(); 
+        // Create a list of non-empty last names from the database.
+
+        
+        var nameCount = Math.Max(firstNameList.Count, lastNameList.Count); // Determines the maximum length between firstNames and lastNames arrays
         combinedNames = Enumerable.Range(0, nameCount)
             .Select(index =>
             {
-                var first = index < firstNames.Length ? firstNames[index] : string.Empty; // Selects the first name if the index is within bounds, otherwise assigns an empty string
-                var last = index < lastNames.Length ? lastNames[index] : string.Empty; // Selects the last name if the index is within bounds, otherwise assigns an empty string
+                var first = index < firstNameList.Count ? firstNameList[index] : string.Empty; // Selects the first name if the index is within bounds, otherwise assigns an empty string
+                var last = index < lastNameList.Count ? lastNameList[index] : string.Empty; // Selects the last name if the index is within bounds, otherwise assigns an empty string
                 return $"{first} {last}".Trim(); // Combines the first and last names, trimming any leading or trailing whitespace
             })
             .ToArray(); // Converts the combined names into an array
     }
 
     // Method to combine first and last names into a single array
-    private void ListFirstLastNames()
+    @* private void ListFirstLastNames()
     {
         PlayerNameModel[] firstLastNames = new PlayerNameModel[firstNames.Length];
         for (int i = 0; i < firstNames.Length; i++)
@@ -217,7 +245,7 @@
                 LastName = i < lastNames.Length ? lastNames[i] : string.Empty // Assigns the last name if the index is within bounds, otherwise assigns an empty string
             };
         }
-    }
+    } *@
 
     public class PlayerNameModel
     {
