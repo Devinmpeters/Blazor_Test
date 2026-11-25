@@ -1,0 +1,69 @@
+@page "/PlayerCharacters"
+@using Blazor_Test.Components.Models
+@using Microsoft.EntityFrameworkCore.Internal
+@using Microsoft.VisualBasic
+@using Microsoft.EntityFrameworkCore;
+@rendermode InteractiveServer
+@inject IDbContextFactory<Blazor_TestContext> DbFactory
+
+<PageTitle>PlayerCharacters</PageTitle>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <select class="form-control" placeholder="Select Player" aria-label="Select Player" aria-describedby="button-addon" @onchange="OnPlayerChange">
+                    <option value="">-- Select Player --</option>
+                    @foreach (var player in playerInfo)
+                    {
+                        <option value="@player.IntPlayerInfoID">@player.PlayerFirstName</option>
+                    }
+                </select> 
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        @* Render the child component here whenever a player is selected *@
+        @if (selectedPlayer != null)
+        {
+            <PlayerDetails Player="@selectedPlayer" />
+        }
+    </div>
+</div>
+
+
+
+@code {
+    private List<PlayerInfo>? playerInfo = new List<PlayerInfo>();
+    public string[]? playerNameList;
+    private PlayerInfo? selectedPlayer;
+
+    @* protected override void OnInitialized()
+    {
+        LoadPlayerNames();
+    } *@
+    protected override async Task OnInitializedAsync()
+    {        // Create a short-lived context instance for this operation
+        using var context = await DbFactory.CreateDbContextAsync();
+        playerInfo = await context.PlayerInfo.AsNoTracking().ToListAsync();
+    }
+
+    @* private void LoadPlayerNames()
+    {
+        var playerNameList =  playerInfo.Select(x => x.PlayerName).Where(name => !string.IsNullOrWhiteSpace(name))
+            .ToList() ?? new List<string>();
+    } *@
+
+    private void OnPlayerChange(ChangeEventArgs e)
+    {
+        // Parse the selected option's value (IntPlayerInfoID)
+        if (int.TryParse(e.Value?.ToString(), out int selectedId))
+        {
+            selectedPlayer = playerInfo?.FirstOrDefault(p => p.IntPlayerInfoID == selectedId);
+        }
+        else
+        {
+            selectedPlayer = null;
+        }
+    }
+}

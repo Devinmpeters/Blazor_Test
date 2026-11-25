@@ -1,0 +1,29 @@
+
+@using Blazor_Test.Components.Models
+@using Microsoft.EntityFrameworkCore.Internal
+@using Microsoft.VisualBasic
+@using Microsoft.EntityFrameworkCore;
+@rendermode InteractiveServer
+@inject IDbContextFactory<Blazor_TestContext> DbFactory
+
+<PageTitle>PlayerDetails</PageTitle>
+
+@* PlayerDetails.razor *@
+@if (Player != null)
+{
+    <div class="card">
+        <div class="card-header">
+            Player Details
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">@Player.PlayerFirstName</h5>
+            <p class="card-text">Player ID: @Player.IntPlayerInfoID</p>
+            @* Add any other PlayerInfo properties here *@
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public PlayerInfo? Player { get; set; }
+}

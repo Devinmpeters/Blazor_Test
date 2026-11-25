@@ -6,9 +6,9 @@
 @rendermode InteractiveServer
 @inject IDbContextFactory<Blazor_TestContext> DbFactory
 
-<PageTitle>Player Names</PageTitle>
+<PageTitle>Character Name Generator</PageTitle>
 
-<h2>Player Names</h2>
+<h2>Character Name Generator</h2>
 
 <div class="row">
     <div class="col-md-6">
@@ -127,8 +127,6 @@
     private string lastName = string.Empty;
     private static List<PlayerNames>? playerNames;
         // Create a list of non-empty first names from the database.
-    private string[] firstNames = { "John", "Jane", "Alice", "Bob", "Charlie", "Fenix", "Flikt", "Nithrali", "Reuben", "Calder", "Farlander", "Mavis", "Soldan" };
-    private string[] lastNames = { "Doe", "Smith", "Johnson", "Williams", "Brown", "", "Beck", "Daevenna", "Corillian", "Seirinise", "Azorin" };
     private string[] combinedNames = Array.Empty<string>(); // Array to hold combined names
     private PlayerNameModel[] firstLastNames = Array.Empty<PlayerNameModel>(); // Array to hold combined first and last names
     

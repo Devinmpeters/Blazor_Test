@@ -1,7 +1,11 @@
 ﻿@page "/"
+@using Blazor_Test.Components.Models
+@using Microsoft.EntityFrameworkCore.Internal
+@using Microsoft.VisualBasic
+@using Microsoft.EntityFrameworkCore;
+@rendermode InteractiveServer
+@inject IDbContextFactory<Blazor_TestContext> DbFactory
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
+<h2>Welcome!</h2>
