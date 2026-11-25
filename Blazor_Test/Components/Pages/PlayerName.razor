@@ -1,5 +1,10 @@
 @page "/playername"
+@using Blazor_Test.Components.Models
+@using Microsoft.EntityFrameworkCore.Internal
+@using Microsoft.VisualBasic
+@using Microsoft.EntityFrameworkCore;
 @rendermode InteractiveServer
+@inject IDbContextFactory<Blazor_TestContext> DbFactory
 
 <PageTitle>Player Names</PageTitle>
 
@@ -116,18 +121,27 @@
 </div> *@
 
 @code {
+
     private string playerName = string.Empty;
     private string firstName = string.Empty;
     private string lastName = string.Empty;
+    private List<PlayerNames>? playerNames;
     private string[] firstNames = { "John", "Jane", "Alice", "Bob", "Charlie", "Fenix", "Flikt", "Nithrali", "Reuben", "Calder", "Farlander", "Mavis", "Soldan" };
     private string[] lastNames = { "Doe", "Smith", "Johnson", "Williams", "Brown", "", "Beck", "Daevenna", "Corillian", "Seirinise", "Azorin" };
     private string[] combinedNames = Array.Empty<string>(); // Array to hold combined names
     private PlayerNameModel[] firstLastNames = Array.Empty<PlayerNameModel>(); // Array to hold combined first and last names
+    
 
     // Override the OnInitialized method to populate the combinedNames array when the component is initialized
     protected override void OnInitialized()
     {
         ListPlayerNames();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {        // Create a short-lived context instance for this operation
+        using var context = await DbFactory.CreateDbContextAsync();
+        playerNames = await context.PlayerNames.AsNoTracking().ToListAsync();
     }
 
     // Method to generate a random player name
@@ -143,19 +157,38 @@
     // Method to load a random first name
     private void LoadPlayerFirstName()
     {
-        var random = new Random(); // Creates a new instance of the Random class
-        var firstNameIndex = random.Next(firstNames.Length); // Generates a random index for the firstNames array
+        var firstNameList = playerNames?
+            .Select(player => player.FirstName)
+            .Where(name => !string.IsNullOrWhiteSpace(name))
+            .ToList() ?? new List<string>();
 
-        firstName = $"{firstNames[firstNameIndex]}"; // Assigns the randomly selected first name to the firstName variable
+        if (firstNameList.Count == 0)
+        {
+            return;
+        }
+
+        var random = new Random(); // Creates a new instance of the Random class
+        var firstNameIndex = random.Next(firstNameList.Count); // Generates a random index for the first-name list
+
+        firstName = firstNameList[firstNameIndex]; // Assigns the randomly selected first name to the firstName variable
     }
 
     // Method to load a random last name
     private void LoadPlayerLastName()
     {
-        var random = new Random(); // Creates a new instance of the Random class
-        var lastNameIndex = random.Next(lastNames.Length); // Generates a random index for the lastNames array
+        var lastNameList = playerNames?
+            .Select(player => player.LastName)
+            .Where(name => !string.IsNullOrWhiteSpace(name))
+            .ToList() ?? new List<string>();
 
-        lastName = $"{lastNames[lastNameIndex]}"; // Assigns the randomly selected last name to the lastName variable
+        if (lastNameList.Count == 0)
+        {
+            return;
+        }
+        var random = new Random(); // Creates a new instance of the Random class
+        var lastNameIndex = random.Next(lastNameList.Count); // Generates a random index for the lastNames array
+
+        lastName = $"{lastNameList[lastNameIndex]}"; // Assigns the randomly selected last name to the lastName variable
     }
 
     // Method to combine first and last names into a single array
@@ -185,11 +218,6 @@
             };
         }
     }
-
-    @* private PlayerNameModel PopulatePlayerNameModel()
-    {
-        
-    } *@
 
     public class PlayerNameModel
     {

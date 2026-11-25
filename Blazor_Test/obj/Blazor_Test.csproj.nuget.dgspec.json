@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\devin\\OneDrive\\Documents\\Code_Examples\\Blazor_Test\\Blazor_Test\\Blazor_Test.csproj": {}
+    "c:\\Users\\devin\\OneDrive\\Documents\\Code_Examples\\Blazor_Test\\Blazor_Test\\Blazor_Test.csproj": {}
   },
   "projects": {
-    "C:\\Users\\devin\\OneDrive\\Documents\\Code_Examples\\Blazor_Test\\Blazor_Test\\Blazor_Test.csproj": {
+    "c:\\Users\\devin\\OneDrive\\Documents\\Code_Examples\\Blazor_Test\\Blazor_Test\\Blazor_Test.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\devin\\OneDrive\\Documents\\Code_Examples\\Blazor_Test\\Blazor_Test\\Blazor_Test.csproj",
+        "projectUniqueName": "c:\\Users\\devin\\OneDrive\\Documents\\Code_Examples\\Blazor_Test\\Blazor_Test\\Blazor_Test.csproj",
         "projectName": "Blazor_Test",
-        "projectPath": "C:\\Users\\devin\\OneDrive\\Documents\\Code_Examples\\Blazor_Test\\Blazor_Test\\Blazor_Test.csproj",
+        "projectPath": "c:\\Users\\devin\\OneDrive\\Documents\\Code_Examples\\Blazor_Test\\Blazor_Test\\Blazor_Test.csproj",
         "packagesPath": "C:\\Users\\devin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\devin\\OneDrive\\Documents\\Code_Examples\\Blazor_Test\\Blazor_Test\\obj\\",
+        "outputPath": "c:\\Users\\devin\\OneDrive\\Documents\\Code_Examples\\Blazor_Test\\Blazor_Test\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\devin\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -53,6 +53,10 @@
               "target": "Package",
               "version": "[10.0.14, )",
               "autoReferenced": true
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[10.0.0, )"
             }
           },
           "imports": [
