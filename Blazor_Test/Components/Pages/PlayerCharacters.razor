@@ -9,24 +9,65 @@
 <PageTitle>PlayerCharacters</PageTitle>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
         <div class="card">
+            <div class="card-header">
+                <h4>Player Characters</h4>
+            </div>
             <div class="card-body">
-                <select class="form-control" placeholder="Select Player" aria-label="Select Player" aria-describedby="button-addon" @onchange="OnPlayerChange">
-                    <option value="">-- Select Player --</option>
-                    @foreach (var player in playerInfo)
-                    {
-                        <option value="@player.IntPlayerInfoID">@player.PlayerFirstName</option>
-                    }
-                </select> 
+                <div class="row">
+                    <div class="col-md-6">
+                        <select class="form-control" placeholder="Select Campaign" aria-label="Select Campaign" aria-describedby="button-addon" @onchange="">
+                            <option value="">-- Select Campaign --</option>
+                            @foreach (var campaign in campaigns)
+                            {
+                                <option value="@campaign.IntCampaignID">@campaign.CampaignDescrip</option>
+                            }
+                        </select> 
+                    </div>
+                    <div class="col-md-6">
+                        <select class="form-control" placeholder="Select Player" aria-label="Select Player" aria-describedby="button-addon" @onchange="OnPlayerChange">
+                            <option value="">-- Select Player --</option>
+                            @foreach (var player in playerInfo)
+                            {
+                                <option value="@player.IntPlayerInfoID">@player.PlayerName</option>
+                            }
+                        </select> 
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-md-8">
+    
+</div>
+<br />
+<div class="row">
+    <div class="col-md-6">
         @* Render the child component here whenever a player is selected *@
         @if (selectedPlayer != null)
         {
             <PlayerDetails Player="@selectedPlayer" />
+        }
+    </div>
+    <div class="col-md-6">
+        @if(selectedPlayer != null)
+        {
+            @if (!string.IsNullOrEmpty(imageSrc))
+            {
+                <div class="card">
+                    <div class="card-body">
+                        <img src="@imageSrc" alt="Character Image" width="Auto" height="80%" class="img-fluid" />
+                    </div>
+                </div>     
+            }
+            else
+            {
+                <div class="card">
+                    <div class="card-body">
+                        <p>No image available.</p>
+                    </div>
+                </div>              
+            }
         }
     </div>
 </div>
@@ -35,8 +76,14 @@
 
 @code {
     private List<PlayerInfo>? playerInfo = new List<PlayerInfo>();
+    public string[]? campaignList;
+    public List<Campaigns>? campaigns = new List<Campaigns>();
+    private PlayerInfo? selectedCampaign;
     public string[]? playerNameList;
     private PlayerInfo? selectedPlayer;
+    private List<CharacterImages> characterImages;
+    private string? imageSrc;
+
 
     @* protected override void OnInitialized()
     {
@@ -46,24 +93,45 @@
     {        // Create a short-lived context instance for this operation
         using var context = await DbFactory.CreateDbContextAsync();
         playerInfo = await context.PlayerInfo.AsNoTracking().ToListAsync();
+        characterImages = await context.CharacterImages.AsNoTracking().ToListAsync();
+        campaigns = await context.Campaigns.OrderBy(x => x.IntCampaignID).AsNoTracking().ToListAsync();
     }
 
-    @* private void LoadPlayerNames()
-    {
-        var playerNameList =  playerInfo.Select(x => x.PlayerName).Where(name => !string.IsNullOrWhiteSpace(name))
-            .ToList() ?? new List<string>();
-    } *@
-
-    private void OnPlayerChange(ChangeEventArgs e)
+    /// <summary>
+    /// Displays character details for the selected player
+    /// </summary>
+    /// <param name="e"></param>
+    /// <returns></returns> <summary>
+    /// 
+    /// </summary>
+    /// <param name="e"></param>
+    /// <returns></returns>
+    private async Task OnPlayerChange(ChangeEventArgs e)
     {
         // Parse the selected option's value (IntPlayerInfoID)
         if (int.TryParse(e.Value?.ToString(), out int selectedId))
         {
             selectedPlayer = playerInfo?.FirstOrDefault(p => p.IntPlayerInfoID == selectedId);
+            // Filter FIRST with Where, project with Select, and grab one item with FirstOrDefault
+            byte[]? characterImage = characterImages?
+                .Where(m => m.IntPlayerInfoID == selectedId)
+                .Select(x => x.CharacterImage)
+                .FirstOrDefault();
+
+            if (characterImage != null && characterImage.Length > 0)
+            {
+                // Convert the selected character's image bytes into a data URL for the img element.
+                imageSrc = $"data:image/png;base64,{Convert.ToBase64String(characterImage)}"; 
+            }
+            else
+            {
+                imageSrc = null;
+            }
         }
         else
         {
             selectedPlayer = null;
+            imageSrc = null;
         }
     }
 }

@@ -10,4 +10,6 @@ internal class Blazor_TestContext : DbContext
     public DbSet<PlayerNames> PlayerNames { get; set; }
     public DbSet<DieTypes> DieTypes { get; set; }
     public DbSet<PlayerInfo> PlayerInfo { get; set; }
+    public DbSet<CharacterImages> CharacterImages { get; set; }
+    public DbSet<Campaigns> Campaigns { get; set; }
 }
