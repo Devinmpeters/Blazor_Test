@@ -27,6 +27,10 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBcHAucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[c:/Users/devin/OneDrive/Documents/Code_Examples/Blazor_Test/Blazor_Test/Components/Pages/CharactersDropdown.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDaGFyYWN0ZXJzRHJvcGRvd24ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [c:/Users/devin/OneDrive/Documents/Code_Examples/Blazor_Test/Blazor_Test/Components/Pages/DiceRoll.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xEaWNlUm9sbC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 

@@ -1,0 +1,20 @@
+
+@using Blazor_Test.Components.Models
+@using Microsoft.EntityFrameworkCore.Internal
+@using Microsoft.VisualBasic
+@using Microsoft.EntityFrameworkCore;
+@rendermode InteractiveServer
+@inject IDbContextFactory<Blazor_TestContext> DbFactory
+
+<select class="form-control" placeholder="Select Character" aria-label="Select Character" aria-describedby="button-addon" @onchange="">
+    <option value="">-- Select Character --</option>
+    @foreach (var character in playerInfo)
+    {
+        <option value="@character.IntPlayerInfoID">@character.CharFirstName @character?.CharLastName</option>
+    }
+</select> 
+
+
+@code {
+    private List<PlayerInfo>? playerInfo = new List<PlayerInfo>();
+}
